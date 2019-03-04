@@ -5,8 +5,13 @@ services:
     image: grafana/grafana:6.0.0
     ports:
       - 3000:3000
-    depends_on:
-      - db
+    restart: on-failure
+    environment:
+      GF_DATABASE_TYPE: postgres
+      GF_DATABASE_HOST: db:5432
+      GF_DATABASE_NAME: grafana
+      GF_DATABASE_USER: grafana
+      GF_DATABASE_PASSWORD: password
   db:
     image: postgres:9.6.12-alpine
     restart: always
