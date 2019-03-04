@@ -6,12 +6,17 @@ services:
     ports:
       - 3000:3000
     restart: on-failure
+    depends_on:
+      - db
+      - cache
     environment:
       GF_DATABASE_TYPE: postgres
       GF_DATABASE_HOST: db:5432
       GF_DATABASE_NAME: grafana
       GF_DATABASE_USER: grafana
       GF_DATABASE_PASSWORD: password
+      GF_SESSION_PROVIDER: redis
+      GF_SESSION_PROVIDER_CONFIG: addr=cache:6379,pool_size=100,prefix=grafana
   db:
     image: postgres:9.6.12-alpine
     restart: always
@@ -21,3 +26,6 @@ services:
       POSTGRES_DB: grafana
       POSTGRES_USER: grafana
       POSTGRES_PASSWORD: password
+  cache:
+    image: redis:5.0.3-alpine
+    restart: always
