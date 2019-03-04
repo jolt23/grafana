@@ -5,3 +5,14 @@ services:
     image: grafana/grafana:6.0.0
     ports:
       - 3000:3000
+    depends_on:
+      - db
+  db:
+    image: postgres:9.6.12-alpine
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: grafana
+      POSTGRES_USER: grafana
+      POSTGRES_PASSWORD: password
