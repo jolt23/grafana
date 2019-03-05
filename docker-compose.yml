@@ -42,6 +42,8 @@ services:
   db:
     image: postgres:9.6.12-alpine
     restart: always
+    volumes:
+      - ./data:/var/lib/postgresql/data:rw
     ports:
       - 5432:5432
     environment:
